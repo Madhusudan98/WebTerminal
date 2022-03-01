@@ -8,18 +8,32 @@ class TerminalUI {
   constructor(socket) {
     this.terminal = new Terminal();
     this.terminal.setOption("theme", {
-      background: "#202B33",
-      foreground: "#F5F8FA"
+      background: "#000000",
+      foreground: "#F5F8FA",
     });
     this.socket = socket;
   }
   startListening() {
+    let currLine = "";
     this.terminal.onData((data) => {
-      console.log(data);
       //to move cursor to newline when pressed enter
-      if(data.charCodeAt(0)==13){
-        data = '\r\n$ ';
+      if (data.charCodeAt(0) == 13) {
+        data = "\r\n$ ";
+        currLine = "";
       }
+      //to handle backspace
+      else if (data.charCodeAt(0) == 127) {
+        if (currLine.length) {
+          data = "\b \b";
+          currLine = currLine.substring(0, currLine.length - 1);
+        }
+        else{
+            data = "";
+        }
+      } else {
+        currLine += data;
+      }
+      console.log(currLine);
       this.write(data);
       this.sendInput(data);
     });
@@ -49,14 +63,14 @@ class TerminalUI {
   }
 }
 
-
 // IMPORTANT: Make sure you replace this address with your server address.
 
 const serverAddress = "http://localhost:8080";
 
 function connectToSocket(serverAddress) {
-  return new Promise(res => {
+  return new Promise((res) => {
     const socket = io(serverAddress);
+    console.log("Socket has been connected");
     res(socket);
   });
 }
@@ -64,24 +78,23 @@ function connectToSocket(serverAddress) {
 function startTerminal(container, socket) {
   // Create an xterm.js instance (TerminalUI class is a wrapper with some utils. Check that file for info.)
   const terminal = new TerminalUI(socket);
-  console.log('Attaching xTerm terminal to DOM')
+  console.log("Attaching xTerm terminal to DOM");
   terminal.attachTo(container);
-  console.log('terminal has starting listening');
+  console.log("terminal has starting listening");
   terminal.startListening();
 }
 
 function start() {
   const container = document.getElementById("terminal-container");
-  console.log(container)
+  console.log(container);
   // Connect to socket and when it is available, start terminal.
-  connectToSocket(serverAddress).then(socket => {
+  connectToSocket(serverAddress).then((socket) => {
     startTerminal(container, socket);
   });
 }
 
 // Better to start on DOMContentLoaded. So, we know terminal-container is loaded
 start();
-
 
 // const uploadForm = document.querySelector('.upload')
 // uploadForm.addEventListener('submit', function(e) {

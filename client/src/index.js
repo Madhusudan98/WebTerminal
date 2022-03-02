@@ -1,67 +1,6 @@
 // index.js
-
+import { TerminalUI } from "./TerminalUI";
 import io from "socket.io-client";
-import { Terminal } from "xterm";
-import "xterm/css/xterm.css";
-
-class TerminalUI {
-  constructor(socket) {
-    this.terminal = new Terminal();
-    this.terminal.setOption("theme", {
-      background: "#000000",
-      foreground: "#F5F8FA",
-    });
-    this.socket = socket;
-  }
-  startListening() {
-    let currLine = "";
-    this.terminal.onData((data) => {
-      //to move cursor to newline when pressed enter
-      if (data.charCodeAt(0) == 13) {
-        data = "\r\n$ ";
-        currLine = "";
-      }
-      //to handle backspace
-      else if (data.charCodeAt(0) == 127) {
-        if (currLine.length) {
-          data = "\b \b";
-          currLine = currLine.substring(0, currLine.length - 1);
-        }
-        else{
-            data = "";
-        }
-      } else {
-        currLine += data;
-      }
-      console.log(currLine);
-      this.write(data);
-      this.sendInput(data);
-    });
-    this.socket.on("output", (data) => {
-      this.write(data);
-    });
-  }
-
-  write(text) {
-    this.terminal.write(text);
-  }
-  prompt() {
-    this.terminal.write(`\r\n$ `);
-  }
-  sendInput(input) {
-    this.socket.emit("input", input);
-  }
-  attachTo(container) {
-    this.terminal.open(container);
-    // Default text to display on terminal.
-    this.terminal.write("Terminal Connected");
-    this.terminal.write("");
-    this.prompt();
-  }
-  clear() {
-    this.terminal.clear();
-  }
-}
 
 // IMPORTANT: Make sure you replace this address with your server address.
 
@@ -69,7 +8,10 @@ const serverAddress = "http://localhost:8080";
 
 function connectToSocket(serverAddress) {
   return new Promise((res) => {
-    const socket = io(serverAddress);
+    console.log(serverAddress);
+    const socket = io(serverAddress, {
+      transports: ['websocket'],
+    });
     console.log("Socket has been connected");
     res(socket);
   });

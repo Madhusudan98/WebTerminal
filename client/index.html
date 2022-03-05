@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>How to create web terminals</title>
-    <meta charset="UTF-8" />
-  </head>
-
-  <body>
-    <!-- <form class="upload">
-      <input type="file" name="uploadFile" accept=".xml" required />
-      <br /><br />
-      <input type="submit" />
-    </form> -->
-    <div id="terminal-container"></div>
-    <script src="src/index.js" type="module"></script>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/index.css">
+    <title>Terminal</title>
+</head>
+<body>
+    <div id="terminal" class="crt type-effect">
+        <input type="file" id="imgupload" accept=".xml"> 
+        <textarea></textarea>
+        <h2 style="font-family: 'Times New Roman', Times, serif;">Type upload() to upload your XML file or test() to use sample XML file</h2>
+        <p></p>
+    </div>
+    <script type="module" src="src/index.js"></script>
+</body>
 </html>

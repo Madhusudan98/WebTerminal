@@ -59,7 +59,7 @@ function start() {
         let lastLine = document.querySelector('p:last-child');
         
         if(evt.key =='Enter'){
-            if(currentLineInput=="upload()"){
+            if(currentLineInput=="--upload"){
                 document.querySelector('#imgupload').click();
             }
             else{

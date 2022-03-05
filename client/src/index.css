@@ -1,100 +1,130 @@
 :root {
-    --height: 100vh;
-    --width: 100vw;
+  --height: 100vh;
+  --width: 100vw;
+}
+body {
+  margin: 0px;
+  background-color: rgb(201, 191, 191);
+  content: " ";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: 100% 8px;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+#terminal {
+  height: var(--height);
+  width: var(--width);
+  background-color: black;
+  color: #18ff62;
+  padding: 5px;
+  padding-left: 20px;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+#imgupload {
+  position: absolute;
+  top: -100px;
+}
+input {
+  width: 1px;
+  animation: blink 2s alternate infinite;
+}
+
+p::before {
+  content: " $    ";
+  top: 0;
+  display: inline-block;
+  vertical-align: top;
+  padding-right: 15px;
+  width: 10px;
+  height: 24px;
+  -webkit-animation: blink 1s step-end infinite;
+  animation: blink 1s step-end infinite;
+}
+
+p:last-child::after {
+  content: "";
+  top: 0;
+  right: -35px;
+  display: inline-block;
+  background-color: #e2dbdb;
+  vertical-align: top;
+  width: 10px;
+  height: 24px;
+  -webkit-animation: blink 1s step-end infinite;
+  animation: blink 1s step-end infinite;
+}
+
+p {
+  position: relative;
+  line-height: 1.25;
+  font-family: monofont;
+  font-size: 20px;
+  width: fit-content;
+  margin: 2px;
+}
+.gradient {
+  background-image: radial-gradient(#2b7f39, #142127);
+}
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 8;
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(255, 255, 255, 0.2) 10%,
+      rgba(0, 0, 0, 0.1) 100%
+  );
+  opacity: 0.1;
+  position: absolute;
+  bottom: 100%;
+  animation: scanline 3s linear infinite;
+}
+@keyframes scanline {
+  0% {
+      top: 0%;
   }
-  body {
-    margin: 0px;
-    background-color: rgb(201, 191, 191);
-    content: " ";
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: 100% 8px;
-    z-index: 2;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    
+  100% {
+    top: 100%;
   }
-  #terminal {
-    height: var(--height);
-    width: var(--width);
-    background-color: black;
-    color: rgb(77, 204, 87);
-    padding: 5px;
-    padding-left: 20px;
-    overflow-y: scroll;
-  }
-  ::-webkit-scrollbar {
-      width: 0;  /* Remove scrollbar space */
-      background: transparent;  /* Optional: just make scrollbar invisible */
-  }
-  #imgupload{
-    position:absolute;
-    top:-100px;
-  }
-  input {
-    width: 1px;
-    animation: blink 2s alternate infinite;
-  }
-  
-  p::before {
-    content: " $    ";
-    top: 0;
-    display: inline-block;
-    vertical-align: top;
-    padding-right: 15px;
-    width: 10px;
-    height: 24px;
-    -webkit-animation: blink 1s step-end infinite;
-    animation: blink 1s step-end infinite;
-  }
-  
-  p:last-child::after {
-    content: "";
-    top: 0;
-    right: -35px;
-    display: inline-block;
-    background-color: #e2dbdb;
-    vertical-align: top;
-    width: 10px;
-    height: 24px;
-    -webkit-animation: blink 1s step-end infinite;
-    animation: blink 1s step-end infinite;
-  }
-  
-  p {
-    position: relative;
-    line-height: 1.25;
-    font-family: monofont;
-    font-size: 16px;
-    width: fit-content;
-    margin: 2px;
-  }
-  
-  textarea {
-    z-index: -1;
-    width: var(--width);
-    height: var(--height);
-    box-sizing: border-box;
-    /* background-color: black; */
-    border: none;
-    outline: none;
-    background-color: transparent;
-    resize: none;
-    position: absolute;
-    overflow-y: scroll;
-  }
-  .crt::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    z-index: 2;
-    background-size: 100% 2px, 3px 100%;
-    pointer-events: none;
-  }  
+}
+textarea {
+  z-index: -1;
+  width: var(--width);
+  height: var(--height);
+  box-sizing: border-box;
+  /* background-color: black; */
+  border: none;
+  outline: none;
+  background-color: transparent;
+  resize: none;
+  position: absolute;
+  overflow-y: scroll;
+}
+.crt::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}

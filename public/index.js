@@ -36,10 +36,14 @@ function start() {
       // output = JSON.stringify(output);
       console.log(output);
       const regex = /\r\n/g;
-      output = output.replace(regex,'</br>')
-      lastLine.innerHTML = output
+      const pre = document.createElement('pre');
+      // output = output.replace(regex,'</br>')
+      pre.innerText = JSON.parse(JSON.stringify(output));
+      console.log(pre.innerText)
+      lastLine.append(pre);
+      // lastLine.innerHTML = output
       const para = document.createElement("p");
-      para.innerHTML = ""
+      para.innerText = ""
       terminal.append(para);
       terminal.scrollTop = terminal.scrollHeight;
     })

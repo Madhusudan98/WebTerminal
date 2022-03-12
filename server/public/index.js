@@ -1,5 +1,5 @@
 // index.js
-import io from "socket.io-client";
+import io from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
 // IMPORTANT: Make sure you replace this address with your server address.
 

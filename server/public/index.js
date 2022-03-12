@@ -3,7 +3,8 @@ import io from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
 
 // IMPORTANT: Make sure you replace this address with your server address.
 
-const serverAddress = "http://localhost:8080";
+// const serverAddress = "http://localhost:8080";
+const serverAddress = "/";
 
 function connectToSocket(serverAddress) {
   return new Promise((res) => {

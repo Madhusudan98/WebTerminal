@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname,'/../public')));
 // app.get('/',(req,res)=>{
 //   res.sendFile(path.join(__dirname,));
 // })
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 server.listen(port, function () {
   console.log("Server listening on : ", port);

@@ -40,7 +40,8 @@ class SocketService {
     // "connection" event happens when any client connects to this io instance.
     io.on("connection", (socket) => {
       console.log("Client connect to socket.", socket.id);
-      const child = spawn("main.exe");
+      let childName = process.platform =="win32" ? "main.exe" : "./a.out";
+      const child = spawn(childName);
       child.on("error", (errMsg) => {
         console.log("Error Occured while spawning the exe file  : ", errMsg);
       });

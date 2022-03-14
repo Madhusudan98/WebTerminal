@@ -1,6 +1,7 @@
 :root {
   --height: 100vh;
   --width: 100vw;
+  --before-text:" $    ";
 }
 body {
   margin: 0px;
@@ -40,7 +41,7 @@ input {
 }
 
 p::before {
-  content: " $    ";
+  content: var(--before-text) ;
   top: 0;
   display: inline-block;
   vertical-align: top;

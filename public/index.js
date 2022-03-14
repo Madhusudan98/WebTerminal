@@ -2,6 +2,7 @@ import UIWebSocket from "./websocket.js";
 console.log("socket", UIWebSocket.socket);
 var ws = new UIWebSocket();
 function start() {
+  let currentLineInput = "";
   const container = document.getElementById("terminal-container");
   console.log(container);
   // Connect to socket and when it is available, start terminal.
@@ -14,24 +15,31 @@ function start() {
   //   console.log(file);
   // })
   console.log("Socket Connected to backend");
-  let currentLineInput = "";
-  let printOutput = ( (output) => {
+
+  let printOutput = (output) => {
+
     let lastLine = document.querySelector("p:last-child");
     // output = JSON.stringify(output);
     console.log(output);
-    const regex = /\r\n/g;
-    const pre = document.createElement("pre");
-    // output = output.replace(regex,'</br>')
-    pre.innerText = JSON.parse(JSON.stringify(output));
-    console.log(pre.innerText);
-    lastLine.append(pre);
-    // lastLine.innerHTML = output
-    const para = document.createElement("p");
-    para.innerText = "";
-    currentLineInput = "";
-    terminal.append(para);
-    terminal.scrollTop = terminal.scrollHeight;
-  });
+
+    if (output == "socket_disconnected") {
+      lastLine.style.setProperty("--before-text", JSON.stringify(" $     "));
+    } else {
+      const regex = /\r\n/g;
+      const pre = document.createElement("pre");
+      // output = output.replace(regex,'</br>')
+      pre.innerText = JSON.parse(JSON.stringify(output));
+      console.log(pre.innerText);
+      terminal.append(pre);
+      // lastLine.innerHTML = output
+      let para = document.createElement("p");
+      para.innerText = "";
+      para.style.setProperty("--before-text", JSON.stringify(" ~     "));
+      currentLineInput = "";
+      terminal.append(para);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+  };
 
   let terminal = document.querySelector("#terminal");
   let textArea = document.querySelector("textarea");
@@ -41,32 +49,37 @@ function start() {
     textArea.focus();
   });
   let commandIndex = 0;
-  textArea.addEventListener("keydown",async function (evt) {
+  textArea.addEventListener("keydown", async function (evt) {
     // console.log(evt);
     let paraList = document.querySelectorAll("p");
-    paraList = [...paraList].filter(x=>x.innerText.length>0 && x.id!="title")
+    paraList = [...paraList].filter(
+      (x) => x.innerText.length > 0 && x.id != "title"
+    );
     let lastLine = document.querySelector("p:last-child");
 
     if (evt.key == "Enter") {
       if (currentLineInput == "--upload") {
         document.querySelector("#imgupload").click();
-      }
-      else if(currentLineInput=="--test"){
+      } else if (currentLineInput == "--test") {
         let connectedSocket = await ws.connect();
-        connectedSocket.on('output',(output)=>printOutput(output))
-        const para = document.createElement("p");
-        para.innerHTML = "";
-        terminal.append(para);
-        terminal.scrollTop = terminal.scrollHeight;
-
+        connectedSocket.on("output", (output) => printOutput(output));
+        // const para = document.createElement("p");
+        // para.innerHTML = "";
+        // terminal.append(para);
+        // terminal.scrollTop = terminal.scrollHeight;
       } else {
-        const para = document.createElement("p");
-        para.innerHTML = "";
-        terminal.append(para);
-        terminal.scrollTop = terminal.scrollHeight;
-        if(ws.socket){
+        if (ws.socket) {
           ws.send(currentLineInput);
         }
+        const para = document.createElement("p");
+        if (ws.socket) {
+          para.style.setProperty("--before-text", JSON.stringify(" ~    "));
+        } else {
+          para.style.setProperty("--before-text", JSON.stringify(" $    "));
+        }
+        para.innerHTML = "";
+        terminal.append(para);
+        terminal.scrollTop = terminal.scrollHeight;
         currentLineInput = "";
         commandIndex = paraList.length;
       }

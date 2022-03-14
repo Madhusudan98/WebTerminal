@@ -46,7 +46,11 @@ class SocketService {
         console.log("Error Occured while spawning the exe file  : ", errMsg);
       });
       this.socket = socket;
-
+      child.on('close',()=>{
+        console.log('XML Parser Closed')
+        this.socket.emit("output","socket_disconnected");
+        this.socket.disconnect();
+      })
       // Just logging when socket disconnects.
       this.socket.on("disconnect", () => {
         console.log("Disconnected Socket: ", socket.id);

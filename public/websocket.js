@@ -22,6 +22,11 @@ export default class UIWebSocket {
         //   resolve(data);
         // });
       });
+      this.socket.on("disconnect", () => {
+        debugger
+        // this.socket.emit('output','');
+        this.disconnect();
+      });
     });
   }
   disconnect() {

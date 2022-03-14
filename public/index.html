@@ -12,11 +12,15 @@
     <div id="crt">
       <div class="scanline"></div>
       <div id="terminal" class="crt gradient">
-        <input type="file" id="imgupload" accept=".xml" />
+        <form class="upload" id="form" style="visibility: hidden;">
+          <input type="file" id="file" class="upload-file" accept=".xml" />
+          <input type="submit" />
+       </form>
+        
         <textarea></textarea>
-        <h2 style="font-family: 'Times New Roman', Times, serif">
+        <p id="title">
           Type --upload to upload your XML file or --test to use sample XML file
-        </h2>
+        </p>
         <p></p>
       </div>
     </div>
